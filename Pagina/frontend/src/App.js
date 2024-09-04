@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
+import Registro from './componentes/registro';
 
-function App() {
+function Login() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -12,30 +15,19 @@ function App() {
       password
     };
     console.log('Datos enviados:', data);
-  
+
     try {
       const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ user: 'admin', password: '1234' }),
       });
       const result = await response.json();
-      
+
       console.log('Resultado del servidor:', result);
-  
-      if (response.ok) {
-        localStorage.setItem('user', JSON.stringify(result));
-        if (user === 'admin' && password === '1234') {
-          alert('Ingreso ');
-        } else {
-          alert('Ingreso Exitoso');
-        }
-      } else {
-        alert('Error en la respuesta del servidor');
-      }
-      
+
       setPassword('');
       setUser('');
     } catch (error) {
@@ -43,7 +35,6 @@ function App() {
       alert('Error al hacer la solicitud');
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -78,7 +69,11 @@ function App() {
           <button type="submit" className="block w-full py-2 mb-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition-all">
             Login
           </button>
-          <button type="button" className="block w-full py-2 rounded-xl bg-green-500 text-white hover:bg-green-600 transition-all">
+          <button 
+            type="button" 
+            onClick={() => navigate('/registro')}
+            className="block w-full py-2 rounded-xl bg-green-500 text-white hover:bg-green-600 transition-all"
+          >
             Registro
           </button>
         </form>
@@ -87,5 +82,13 @@ function App() {
   );
 }
 
-export default App;
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/registro" element={<Registro />} />
+    </Routes>
+  );
+}
 
+export default App;

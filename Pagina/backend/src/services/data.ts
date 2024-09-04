@@ -157,10 +157,10 @@ export var dataCustomers: Array<CustomerData> = [{
     "password": "123456789",
   }, {
     "id": 16,
-    "first_name": "David",
+    "first_name": "admin",
     "last_name": "Maldonado",
-    "email": "admin@gmail.com",
-    "code":"202200176",
+    "email": "admin",
+    "code":"1234",
     "gener": "masculino",
     "facultad": "Ingenieria",
     "carrera": "Ciencias y Sistemas",
