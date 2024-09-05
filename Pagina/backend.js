@@ -55,3 +55,7 @@ app.post('/login', (req, res) => {
         }
     });
 });
+
+app.get('/', (req, res) => {
+    res.send('Hola desde el servidor');
+});
