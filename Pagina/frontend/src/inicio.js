@@ -1,23 +1,9 @@
-import React, { useState, useEffect } from 'react';
-
-// Simula una función para obtener publicaciones desde el backend
-const fetchPublicaciones = async () => {
-  // Implementa la lógica para obtener las publicaciones
-  return [
-    { id: 1, fecha: '2024-09-01', curso: 'Matemáticas', catedratico: 'Ing. Velazquez', comentarios: [] },
-    { id: 2, fecha: '2024-08-30', curso: 'Física', catedratico: 'Ing. Cuyan', comentarios: [] },
-    // Agrega más publicaciones aquí
-  ];
-};
-
-// Simula una función para agregar un comentario a una publicación
-const addComentario = async (pubId, comentario) => {
-  // Implementa la lógica para agregar un comentario a la publicación
-  console.log(`Comentario agregado a la publicación ${pubId}: ${comentario}`);
-};
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PublicacionContext } from './PublicacionContext';
 
 const Inicio = () => {
-  const [publicaciones, setPublicaciones] = useState([]);
+  const { publicaciones } = useContext(PublicacionContext);
   const [cursoFilter, setCursoFilter] = useState('');
   const [catedraticoFilter, setCatedraticoFilter] = useState('');
   const [nombreCursoFilter, setNombreCursoFilter] = useState('');
@@ -25,27 +11,7 @@ const Inicio = () => {
   const [comentario, setComentario] = useState('');
   const [selectedPubId, setSelectedPubId] = useState(null);
 
-  useEffect(() => {
-    const getPublicaciones = async () => {
-      const data = await fetchPublicaciones();
-      setPublicaciones(data);
-    };
-    getPublicaciones();
-  }, []);
-
-  const handleAddComentario = async () => {
-    if (selectedPubId && comentario) {
-      await addComentario(selectedPubId, comentario);
-      // Actualiza el estado de publicaciones (esto debería ser hecho con un fetch real)
-      const updatedPublicaciones = publicaciones.map(pub =>
-        pub.id === selectedPubId
-          ? { ...pub, comentarios: [...pub.comentarios, comentario] }
-          : pub
-      );
-      setPublicaciones(updatedPublicaciones);
-      setComentario('');
-    }
-  };
+  const navigate = useNavigate();
 
   const filteredPublicaciones = publicaciones
     .filter(pub => (!cursoFilter || pub.curso === cursoFilter))
@@ -57,6 +23,12 @@ const Inicio = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Inicio</h1>
+      <button
+        className="bg-green-500 text-white p-2 rounded mb-4"
+        onClick={() => navigate('/publicacion')}
+      >
+        Crear Nueva Publicación
+      </button>
       <div className="mb-4">
         <input
           type="text"
@@ -100,29 +72,6 @@ const Inicio = () => {
                   <li key={index} className="text-gray-700">{com}</li>
                 ))}
               </ul>
-              {selectedPubId === pub.id && (
-                <div className="mt-4">
-                  <input
-                    type="text"
-                    placeholder="Agregar un comentario"
-                    className="border border-gray-300 p-2 rounded mr-2"
-                    value={comentario}
-                    onChange={(e) => setComentario(e.target.value)}
-                  />
-                  <button
-                    className="bg-blue-500 text-white p-2 rounded"
-                    onClick={handleAddComentario}
-                  >
-                    Agregar Comentario
-                  </button>
-                </div>
-              )}
-              <button
-                className="mt-2 text-blue-500"
-                onClick={() => setSelectedPubId(pub.id === selectedPubId ? null : pub.id)}
-              >
-                {selectedPubId === pub.id ? 'Ocultar Comentarios' : 'Mostrar Comentarios'}
-              </button>
             </div>
           </div>
         ))}
