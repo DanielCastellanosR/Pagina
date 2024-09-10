@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
+    const [registroAcademico, setRegistroAcademico] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
@@ -12,7 +12,7 @@ const Login = () => {
         event.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/login', {
-                correo: email,
+                registro_academico: registroAcademico,
                 contrasena: password,
             });
             console.log(response.data);
@@ -24,23 +24,23 @@ const Login = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className='bg-white px-10 py-10 rounded-xl border-2 border-gray-100 shadow-lg w-full max-w-sm'>
-                <h1 className='text-3xl font-bold text-center'>Inicia Sesion</h1>
+                <h1 className='text-3xl font-bold text-center'>Inicia Sesión</h1>
                 <p className='font-medium text-lg mt-2 text-center'>Bienvenido a FIUSAC Social</p>
                 <form className="register-form mt-6" onSubmit={handleLogin}>
                     <div className="form-group mb-4">
-                        <label htmlFor="user" className='block text-sm font-medium'>Email</label>
+                        <label htmlFor="registro" className='block text-sm font-medium'>Registro Académico</label>
                         <input
                             type="text"
-                            id="user"
-                            name="user"
+                            id="registro"
+                            name="registro"
                             required
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
+                            onChange={(e) => setRegistroAcademico(e.target.value)}
+                            value={registroAcademico}
                             className='mt-1 py-2 px-3 rounded-xl bg-slate-100 w-full border-2 border-gray-300'
                         />
                     </div>
                     <div className="form-group mb-6">
-                        <label htmlFor="password" className='block text-sm font-medium'>Password</label>
+                        <label htmlFor="password" className='block text-sm font-medium'>Contraseña</label>
                         <input
                             type="password"
                             id="password"
@@ -55,7 +55,7 @@ const Login = () => {
                         type="submit"
                         className="block w-full py-2 mb-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition-all"
                     >
-                        Login
+                        Iniciar Sesión
                     </button>
                     <button 
                         type="button" 

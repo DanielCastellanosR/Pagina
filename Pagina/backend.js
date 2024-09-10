@@ -44,9 +44,9 @@ app.post('/register', (req, res) => {
 
 
 app.post('/login', (req, res) => {
-    const { correo, contrasena } = req.body;
-    const sql = `SELECT * FROM usuarios WHERE correo = ? AND contrasena = ?`;
-    connection.query(sql, [correo, contrasena], (err, result) => {
+    const { registro_academico, contrasena } = req.body;
+    const sql = `SELECT * FROM usuarios WHERE registro_academico = ? AND contrasena = ?`;
+    connection.query(sql, [registro_academico, contrasena], (err, result) => {
         if (err) return res.status(500).send(err);
         if (result.length > 0) {
             res.send({ message: 'Inicio de sesión exitoso', user: result[0] });
