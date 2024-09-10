@@ -64,6 +64,15 @@ const Login = () => {
                     >
                         Registro
                     </button>
+                    <div className="text-center mt-4">
+                        <button 
+                            type="button"
+                            className="text-sm text-blue-500 hover:underline"
+                            onClick={() => navigate('/olvidar')}
+                        >
+                            ¿Olvidaste tu contraseña?
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
