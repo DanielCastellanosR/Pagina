@@ -1,0 +1,206 @@
+{
+    "cursos": [
+      {
+        "nombre": "Matemáticas Para la Computación 1",
+        "codigo": "0960",
+        "creditos": 5
+      },
+      {
+        "nombre": "Logica de Sistemas",
+        "codigo": "0795",
+        "creditos": 3
+      },
+      {
+        "nombre": "Matemáticas Para la Computación 2",
+        "codigo": "0962",
+        "creditos": 5
+      },
+      {
+        "nombre": "Introducción a la Programación y Computación 1",
+        "codigo": "0770",
+        "creditos": 6
+      },
+      {
+        "nombre": "Introducción a la Programación y Computación 2",
+        "codigo": "0771",
+        "creditos": 6
+      },
+      {
+        "nombre": "Lenguajes Formales y de Programación",
+        "codigo": "0796",
+        "creditos": 4
+      },
+      {
+        "nombre": "Organización de Lenguajes y Compiladores 1",
+        "codigo": "0777",
+        "creditos": 6
+      },
+      {
+        "nombre": "Organización Computacional",
+        "codigo": "0964",
+        "creditos": 4
+      },
+      {
+        "nombre": "Estructuras de Datos",
+        "codigo": "0772",
+        "creditos": 6
+      },
+      {
+        "nombre": "Teoría de Sistemas 1",
+        "codigo": "0722",
+        "creditos": 4
+      },
+      {
+        "nombre": "Investigación de Operaciones 1",
+        "codigo": "0601",
+        "creditos": 6
+      },
+      {
+        "nombre": "Organización de Lenguajes y Compiladores 2",
+        "codigo": "0781",
+        "creditos": 6
+      },
+      {
+        "nombre": "Arquitectura de Computadoras y Ensambladores 1",
+        "codigo": "0778",
+        "creditos": 5
+      },
+      {
+        "nombre": "Practicas Iniciales",
+        "codigo": "2025",
+        "creditos": 0 
+      },
+      {
+        "nombre":"Manejo e Implementación de Archivos",
+        "codigo":"0773",
+        "creditos": 5
+      },
+      {
+        "nombre":"Teoría de Sistemas 2",
+        "codigo":"0603",
+        "creditos": 4
+      },{
+        "nombre":"Investigación de Operaciones 2",
+        "codigo":"0603",
+        "creditos": 6
+      },{
+        "nombre":"Sistemas Operativos 1",
+        "codigo":"0281",
+        "creditos": 6
+      },{
+        "nombre":"Arquitectura de Computadoras y Ensambladores 2",
+        "codigo":"0779",
+        "creditos": 5
+      },{
+        "nombre":"Redes de Computadoras 1",
+        "codigo":"0970",
+        "creditos": 5
+      },{
+        "nombre":"Practicas Intermedias",
+        "codigo":"2036",
+        "creditos": 0
+      },{
+        "nombre":"Sistemas Operativos 2",
+        "codigo":"0285",
+        "creditos": 4
+      },{
+        "nombre":"Redes de Computadoras 2",
+        "codigo":"0975",
+        "creditos": 6
+      },{
+        "nombre":"Sistemas de Base de Datos 1",
+        "codigo":"0774",
+        "creditos": 6
+      },{
+        "nombre":"Sistemas de Base de Datos 2",
+        "codigo":"0775",
+        "creditos": 7
+      },{
+        "nombre":"Analisis y Diseño de Sistemas 1",
+        "codigo":"0283",
+        "creditos": 6
+      },{
+        "nombre":"Seminario de Sistemas 1",
+        "codigo":"0797",
+        "creditos": 5
+      },{
+        "nombre":"Modulación y Simulación 1",
+        "codigo":"0729",
+        "creditos": 5
+      },{
+        "nombre":"Sistemas Organizacionales y Gerenciales 1",
+        "codigo":"0786",
+        "creditos": 5
+      },{
+        "nombre":"Inteligenica Artificial 1",
+        "codigo":"0972",
+        "creditos": 7
+      },{
+        "nombre":"Seguridad y Auditoria de Redes de Computadoras",
+        "codigo":"0966",
+        "creditos": 3 
+      },{
+        "nombre":"Análisis y Diseño de Sistemas 2",
+        "codigo":"0785",
+        "creditos": 7
+      },{
+        "nombre":" Seminario de Sistemas 2",
+        "codigo":"0798",
+        "creditos": 5
+      },{
+        "nombre":"Sistemas Aplicados 1",
+        "codigo":"0788",
+        "creditos": 5
+      },{
+        "nombre":"Base de Datos Avanzadas",
+        "codigo":"0776",
+        "creditos": 5
+      },{
+        "nombre":"Practicas Finales Ingenieria Ciencias y Sistemas",
+        "codigo":"2009",
+        "creditos": 0
+      },{
+        "nombre":"Modulación y Simulación 2",
+        "codigo":"0720",
+        "creditos": 6
+      },{
+        "nombre":"Sistemas Organizacionales y Gerenciales 2",
+        "codigo":"0787",
+        "creditos": 6
+      },{
+        "nombre":"Emprendedores de Negocios Informáticos",
+        "codigo":"0790",
+        "creditos": 6
+      },{
+        "nombre":"Inteligenica Artificial 2",
+        "codigo":"0968",
+        "creditos": 5
+      },{
+        "nombre":"Redes de Nueva Generación",
+        "codigo":"0974",
+        "creditos": 3
+      },{
+        "nombre": "Software Avanzado",
+        "codigo": "0780",
+        "creditos": 8
+      },{
+        "nombre": "Sistemas Aplicados 2",
+        "codigo": "0789",
+        "creditos": 5
+      },{
+        "nombre": "Auditoria de Proyectos de Software",
+        "codigo": "0735",
+        "creditos": 6
+      },{
+        "nombre": "Seminario de Investigación EPS Sistemas",
+        "codigo": "7999",
+        "creditos": 3
+      },{
+        "nombre": "Seminario de Graduación",
+        "codigo": "0779",
+        "creditos": 3
+      }
+
+    ]
+  }
+  

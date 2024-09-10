@@ -51,15 +51,6 @@ const Login = () => {
                             className='mt-1 py-2 px-3 rounded-xl bg-slate-100 w-full border-2 border-gray-300'
                         />
                     </div>
-                    <div className="text-left">
-                        <button
-                            type="button"
-                            onClick={() => navigate('/cambiocontra')}
-                            className="text-black hover:underline"
-                        >
-                            ¿Se te olvidó tu contraseña?
-                        </button>
-                    </div>
                     <button 
                         type="submit"
                         className="block w-full py-2 mb-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition-all"
