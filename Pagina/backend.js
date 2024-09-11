@@ -1,11 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
-const port = process.env.PORT || 5000;
-
+const fs = require('fs');
 const mysql = require('mysql2');
 require('dotenv').config();
 
+const app = express();
+const port = process.env.PORT || 5000;
 
 const connection = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -30,6 +30,35 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
+// Ruta para cargar cursos desde el archivo JSON
+app.post('/cargar-cursos', (req, res) => {
+    const jsonFilePath = './cursos.json'; // Cambia esto por la ruta correcta de tu archivo JSON
+    
+    fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading JSON file:', err);
+            return res.status(500).send({ message: 'Error al leer el archivo JSON', error: err });
+        }
+        
+        const cursos = JSON.parse(data).cursos;
+
+        // Insertar cada curso en la tabla 'cursos'
+        cursos.forEach(curso => {
+            const sql = `INSERT INTO cursos (nombre, codigo, creditos) VALUES (?, ?, ?)`;
+            connection.query(sql, [curso.nombre, curso.codigo, curso.creditos], (err, result) => {
+                if (err) {
+                    console.error('Error inserting course:', err);
+                } else {
+                    console.log(`Curso insertado: ${curso.nombre}`);
+                }
+            });
+        });
+
+        res.send({ message: 'Cursos cargados exitosamente' });
+    });
+});
+
+// Ruta de registro de usuarios
 app.post('/register', (req, res) => {
     const { registro_academico, nombres, apellidos, contrasena, correo } = req.body;
     const sql = `INSERT INTO usuarios (registro_academico, nombres, apellidos, contrasena, correo) VALUES (?, ?, ?, ?, ?)`;
@@ -42,7 +71,7 @@ app.post('/register', (req, res) => {
     });
 });
 
-
+// Ruta de login de usuarios
 app.post('/login', (req, res) => {
     const { registro_academico, contrasena } = req.body;
     const sql = `SELECT * FROM usuarios WHERE registro_academico = ? AND contrasena = ?`;
@@ -56,6 +85,7 @@ app.post('/login', (req, res) => {
     });
 });
 
+// Ruta para restablecer contraseña
 app.post('/reset-password', (req, res) => {
     const { registro_academico, correo, nueva_contrasena } = req.body;
     const checkUserSql = `SELECT * FROM usuarios WHERE registro_academico = ? AND correo = ?`;
@@ -73,8 +103,7 @@ app.post('/reset-password', (req, res) => {
     });
 });
 
-
-
+// Ruta principal
 app.get('/', (req, res) => {
     res.send('Hola desde el servidor a Practicas Iniciales');
 });
