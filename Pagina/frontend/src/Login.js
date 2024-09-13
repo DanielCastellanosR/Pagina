@@ -16,6 +16,8 @@ const Login = () => {
                 contrasena: password,
             });
             console.log(response.data);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            navigate('/inicio');
         } catch (error) {
             console.error('Error durante el inicio de sesión:', error);
         }

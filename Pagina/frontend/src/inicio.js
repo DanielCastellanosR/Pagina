@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PublicacionContext } from './PublicacionContext';
 
@@ -8,10 +8,18 @@ const Inicio = () => {
   const [catedraticoFilter, setCatedraticoFilter] = useState('');
   const [nombreCursoFilter, setNombreCursoFilter] = useState('');
   const [nombreCatedraticoFilter, setNombreCatedraticoFilter] = useState('');
-  const [comentario, setComentario] = useState('');
-  const [selectedPubId, setSelectedPubId] = useState(null);
+  const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const filteredPublicaciones = publicaciones
     .filter(pub => (!cursoFilter || pub.curso === cursoFilter))
@@ -23,6 +31,7 @@ const Inicio = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Inicio</h1>
+      {user && <p className="mb-4">Bienvenido, {user.nombres} {user.apellidos}</p>}
       <button
         className="bg-green-500 text-white p-2 rounded mb-4"
         onClick={() => navigate('/publicacion')}

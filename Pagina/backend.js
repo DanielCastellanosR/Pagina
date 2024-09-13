@@ -30,33 +30,6 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-// Ruta para cargar cursos desde el archivo JSON
-app.post('/cargar-cursos', (req, res) => {
-    const jsonFilePath = './cursos.json'; // Cambia esto por la ruta correcta de tu archivo JSON
-    
-    fs.readFile(jsonFilePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading JSON file:', err);
-            return res.status(500).send({ message: 'Error al leer el archivo JSON', error: err });
-        }
-        
-        const cursos = JSON.parse(data).cursos;
-
-        // Insertar cada curso en la tabla 'cursos'
-        cursos.forEach(curso => {
-            const sql = `INSERT INTO cursos (nombre, codigo, creditos) VALUES (?, ?, ?)`;
-            connection.query(sql, [curso.nombre, curso.codigo, curso.creditos], (err, result) => {
-                if (err) {
-                    console.error('Error inserting course:', err);
-                } else {
-                    console.log(`Curso insertado: ${curso.nombre}`);
-                }
-            });
-        });
-
-        res.send({ message: 'Cursos cargados exitosamente' });
-    });
-});
 
 // Ruta de registro de usuarios
 app.post('/register', (req, res) => {
