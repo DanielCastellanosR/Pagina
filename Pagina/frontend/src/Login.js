@@ -6,6 +6,7 @@ import './App.css';
 const Login = () => {
     const [registroAcademico, setRegistroAcademico] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleLogin = async (event) => {
@@ -16,8 +17,18 @@ const Login = () => {
                 contrasena: password,
             });
             console.log(response.data);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            navigate('/inicio');
         } catch (error) {
             console.error('Error durante el inicio de sesión:', error);
+            setError('Error durante el inicio de sesión. Por favor, verifica tus credenciales.');
+        }
+    };
+
+    const handleCarnetChange = (e) => {
+        const value = e.target.value;
+        if (/^\d*$/.test(value)) {
+            setRegistroAcademico(value);
         }
     };
 
@@ -34,7 +45,7 @@ const Login = () => {
                             id="registro"
                             name="registro"
                             required
-                            onChange={(e) => setRegistroAcademico(e.target.value)}
+                            onChange={handleCarnetChange}
                             value={registroAcademico}
                             className='mt-1 py-2 px-3 rounded-xl bg-slate-100 w-full border-2 border-gray-300'
                         />
@@ -51,6 +62,7 @@ const Login = () => {
                             className='mt-1 py-2 px-3 rounded-xl bg-slate-100 w-full border-2 border-gray-300'
                         />
                     </div>
+                    {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
                     <button 
                         type="submit"
                         className="block w-full py-2 mb-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition-all"

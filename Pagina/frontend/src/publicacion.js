@@ -1,14 +1,45 @@
-// Archivo: Publicacion.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Publicacion = () => {
-  const [usuario, setUsuario] = useState("usuarioLogueado"); // Reemplazar con el usuario logueado real
+  const [usuario, setUsuario] = useState(null);
   const [tipo, setTipo] = useState(""); // Catedrático o Curso
   const [seleccion, setSeleccion] = useState(""); // Nombre del Catedrático o Curso
   const [mensaje, setMensaje] = useState("");
   const [fechaCreacion] = useState(new Date().toLocaleDateString());
   const [error, setError] = useState("");
   const [exito, setExito] = useState(false);
+  const [cursos, setCursos] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUsuario(JSON.parse(storedUser));
+    } else {
+      navigate('/login');
+    }
+
+    // Cargar los cursos desde el backend
+    axios.get('http://localhost:5000/cursos')
+      .then(response => {
+        setCursos(response.data);
+      })
+      .catch(error => {
+        console.error('Error al cargar los cursos:', error);
+      });
+  }, [navigate]);
+
+  useEffect(() => {
+    if (exito) {
+      const timer = setTimeout(() => {
+        navigate('/inicio');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [exito, navigate]);
 
   const handlePublicar = (e) => {
     e.preventDefault();
@@ -17,14 +48,23 @@ const Publicacion = () => {
       return;
     }
     setError("");
-    setExito(true);
-    // Aquí puedes hacer la lógica para almacenar la publicación en la base de datos
-    console.log({
-      usuario,
-      tipo,
-      seleccion,
+
+    // Convertir la fecha a un formato compatible con MySQL
+    const fechaCreacionFormatted = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+    // Enviar la publicación al backend
+    axios.post('http://localhost:5000/publicaciones', {
+      nombre_usuario: usuario.nombres, // Asegurarse de que este valor coincide con la columna `nombres` en `usuarios`
+      curso_o_catedratico: seleccion,
       mensaje,
-      fechaCreacion,
+      fecha_creacion: fechaCreacionFormatted
+    })
+    .then(response => {
+      console.log('Publicación realizada con éxito:', response.data);
+      setExito(true);
+    })
+    .catch(error => {
+      console.error('Error al realizar la publicación:', error);
     });
   };
 
@@ -35,7 +75,7 @@ const Publicacion = () => {
         {exito ? (
           <div>
             <p className="text-green-600 text-center mb-4">Publicación realizada con éxito.</p>
-            <p className="text-center">¡Gracias por tu contribución!</p>
+            <p className="text-center">Redirigiendo al inicio...</p>
           </div>
         ) : (
           <form onSubmit={handlePublicar}>
@@ -43,7 +83,7 @@ const Publicacion = () => {
               <label className="block text-gray-700 font-semibold mb-2">Usuario</label>
               <input
                 type="text"
-                value={usuario}
+                value={usuario ? `${usuario.nombres} ${usuario.apellidos}` : ''}
                 readOnly
                 className="w-full p-2 border border-gray-300 rounded-md bg-gray-100"
               />
@@ -66,13 +106,29 @@ const Publicacion = () => {
                 <label className="block text-gray-700 font-semibold mb-2">
                   {tipo === "Catedrático" ? "Nombre del Catedrático" : "Nombre del Curso"}
                 </label>
-                <input
-                  type="text"
-                  value={seleccion}
-                  onChange={(e) => setSeleccion(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                  required
-                />
+                {tipo === "Curso" ? (
+                  <select
+                    value={seleccion}
+                    onChange={(e) => setSeleccion(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    required
+                  >
+                    <option value="">Seleccione un curso</option>
+                    {cursos.map((curso) => (
+                      <option key={curso.codigo} value={curso.nombre}>
+                        {curso.nombre}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    value={seleccion}
+                    onChange={(e) => setSeleccion(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    required
+                  />
+                )}
               </div>
             )}
             <div className="mb-4">
