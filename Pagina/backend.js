@@ -30,7 +30,6 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-
 // Ruta de registro de usuarios
 app.post('/register', (req, res) => {
     const { registro_academico, nombres, apellidos, contrasena, correo } = req.body;
@@ -76,7 +75,79 @@ app.post('/reset-password', (req, res) => {
     });
 });
 
+// Ruta para obtener los cursos
+app.get('/cursos', (req, res) => {
+    fs.readFile('cursos.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading cursos.json:', err);
+            return res.status(500).send({ message: 'Error en el servidor al leer los cursos' });
+        }
+        const cursos = JSON.parse(data).cursos;
+        res.send(cursos);
+    });
+});
+
+// Ruta para obtener todas las publicaciones con sus comentarios
+app.get('/publicaciones', (req, res) => {
+    const sql = `
+        SELECT p.id, p.nombre_usuario, p.curso_o_catedratico, p.mensaje, p.fecha_creacion, c.comentario
+        FROM publicaciones p
+        LEFT JOIN comentarios c ON p.id = c.publicacion_id
+        ORDER BY p.fecha_creacion DESC
+    `;
+    connection.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching publicaciones:', err);
+            return res.status(500).send({ message: 'Error en el servidor al obtener las publicaciones', error: err });
+        }
+        const publicaciones = results.reduce((acc, row) => {
+            const pub = acc.find(p => p.id === row.id);
+            if (pub) {
+                pub.comentarios.push(row.comentario);
+            } else {
+                acc.push({
+                    id: row.id,
+                    nombre_usuario: row.nombre_usuario,
+                    curso_o_catedratico: row.curso_o_catedratico,
+                    mensaje: row.mensaje,
+                    fecha_creacion: row.fecha_creacion,
+                    comentarios: row.comentario ? [row.comentario] : []
+                });
+            }
+            return acc;
+        }, []);
+        res.send(publicaciones);
+    });
+});
+
+// Ruta para agregar una nueva publicación
+app.post('/publicaciones', (req, res) => {
+    const { nombre_usuario, curso_o_catedratico, mensaje, fecha_creacion } = req.body;
+    const sql = `INSERT INTO publicaciones (nombre_usuario, curso_o_catedratico, mensaje, fecha_creacion) VALUES (?, ?, ?, ?)`;
+    connection.query(sql, [nombre_usuario, curso_o_catedratico, mensaje, fecha_creacion], (err, result) => {
+        if (err) {
+            console.error('Error inserting publicacion:', err);
+            return res.status(500).send({ message: 'Error en el servidor al agregar la publicación', error: err });
+        }
+        res.status(201).send({ message: 'Publicación agregada correctamente' });
+    });
+});
+
+// Ruta para agregar un comentario a una publicación
+app.post('/comentarios', (req, res) => {
+    const { publicacion_id, nombre_usuario, comentario } = req.body;
+    const sql = `INSERT INTO comentarios (publicacion_id, nombre_usuario, comentario) VALUES (?, ?, ?)`;
+    connection.query(sql, [publicacion_id, nombre_usuario, comentario], (err, result) => {
+        if (err) {
+            console.error('Error inserting comentario:', err);
+            return res.status(500).send({ message: 'Error en el servidor al agregar el comentario', error: err });
+        }
+        res.status(201).send({ message: 'Comentario agregado correctamente' });
+    });
+});
+
 // Ruta principal
 app.get('/', (req, res) => {
     res.send('Hola desde el servidor a Practicas Iniciales');
 });
+
