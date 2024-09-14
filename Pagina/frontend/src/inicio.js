@@ -19,7 +19,7 @@ const Inicio = () => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
-      navigate('/login');
+      navigate('/');
     }
   
     axios.get('http://localhost:5000/publicaciones')

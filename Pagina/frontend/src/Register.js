@@ -26,7 +26,7 @@ const Register = () => {
             console.log(response.data);
             setExito(true);
             setTimeout(() => {
-                navigate('/login');
+                navigate('/');
             }, 3000); // Redirigir después de 3 segundos
         } catch (error) {
             if (error.response) {
@@ -83,7 +83,6 @@ const Register = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white px-10 py-10 rounded-xl border-2 border-gray-100 shadow-lg w-full max-w-lg">
                 <h1 className="text-3xl font-bold text-center">Registro</h1>
-                <p className="font-medium text-lg mt-2 text-center">Por favor, llena el formulario para registrarte.</p>
                 {exito ? (
                     <div className="text-center mt-6">
                         <p className="text-green-600 text-lg">¡Registro exitoso!</p>
