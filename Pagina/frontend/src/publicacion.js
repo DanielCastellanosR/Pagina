@@ -11,6 +11,7 @@ const Publicacion = () => {
   const [error, setError] = useState("");
   const [exito, setExito] = useState(false);
   const [cursos, setCursos] = useState([]);
+  const [catedraticos, setCatedraticos] = useState([]); // Estado para los catedráticos
 
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const Publicacion = () => {
     if (storedUser) {
       setUsuario(JSON.parse(storedUser));
     } else {
-      navigate('/login');
+      navigate('/');
     }
 
     // Cargar los cursos desde el backend
@@ -29,6 +30,16 @@ const Publicacion = () => {
       })
       .catch(error => {
         console.error('Error al cargar los cursos:', error);
+      });
+
+    // Cargar los catedráticos desde el archivo JSON
+    fetch('/profesores.json')
+      .then(response => response.json())
+      .then(data => {
+        setCatedraticos(data);
+      })
+      .catch(error => {
+        console.error('Error al cargar los catedráticos:', error);
       });
   }, [navigate]);
 
@@ -121,13 +132,19 @@ const Publicacion = () => {
                     ))}
                   </select>
                 ) : (
-                  <input
-                    type="text"
+                  <select
                     value={seleccion}
                     onChange={(e) => setSeleccion(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-md"
                     required
-                  />
+                  >
+                    <option value="">Seleccione un catedrático</option>
+                    {catedraticos.map((catedratico, index) => (
+                      <option key={index} value={`${catedratico.NOMBRE} ${catedratico.APELLIDO1} ${catedratico.APELLIDO2}`}>
+                        {`${catedratico.NOMBRE} ${catedratico.APELLIDO1} ${catedratico.APELLIDO2}`}
+                      </option>
+                    ))}
+                  </select>
                 )}
               </div>
             )}

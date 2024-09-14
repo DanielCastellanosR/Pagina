@@ -6,7 +6,8 @@ import Registro from './Register';
 import Inicio from './inicio';
 import Publicacion from './publicacion';
 import Olvidar from './Olvidar_contrasena';
-import { PublicacionProvider } from './PublicacionContext'; // Ajusta la ruta si es necesario
+import { Perfil, BuscarPerfil } from './Perfil';
+import { PublicacionProvider } from './PublicacionContext'; 
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/publicacion" element={<Publicacion />} />
         <Route path="/olvidar" element={<Olvidar />} />
+        <Route path="/buscar-perfil" element={<BuscarPerfil />} />
+        <Route path="/perfil/:userId" element={<Perfil />} />
       </Routes>
     </PublicacionProvider>
   );

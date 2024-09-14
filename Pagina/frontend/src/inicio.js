@@ -64,7 +64,7 @@ const Inicio = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('user');
-    navigate('/login');
+    navigate('/');
   };
 
   const filteredPublicaciones = publicaciones
@@ -78,6 +78,12 @@ const Inicio = () => {
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Inicio</h1>
+        <button
+          className="bg-blue-500 text-white p-2 rounded"
+          navigate="/perfil/:userId"
+        >
+          Ir a perfil
+        </button>
         <button
           className="bg-red-500 text-white p-2 rounded"
           onClick={handleLogout}
