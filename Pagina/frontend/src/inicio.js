@@ -62,6 +62,11 @@ const Inicio = () => {
     });
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   const filteredPublicaciones = publicaciones
     .filter(pub => (!cursoFilter || pub.curso_o_catedratico.includes(cursoFilter)))
     .filter(pub => (!catedraticoFilter || pub.curso_o_catedratico.includes(catedraticoFilter)))
@@ -71,7 +76,15 @@ const Inicio = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Inicio</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Inicio</h1>
+        <button
+          className="bg-red-500 text-white p-2 rounded"
+          onClick={handleLogout}
+        >
+          Salir
+        </button>
+      </div>
       {user && <p className="mb-4">Bienvenido, {user.nombres} {user.apellidos}</p>}
       <button
         className="bg-green-500 text-white p-2 rounded mb-4"
