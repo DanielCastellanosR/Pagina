@@ -22,7 +22,7 @@ const Inicio = () => {
       navigate('/login');
     }
   
-    axios.get('http://localhost:5000/publicaciones') // Asegúrate de que esta URL es correcta
+    axios.get('http://localhost:5000/publicaciones')
       .then(response => {
         setPublicaciones(response.data);
       })
@@ -39,7 +39,7 @@ const Inicio = () => {
     const comentario = comentarios[publicacionId];
     if (!comentario || !user) return;
 
-    axios.post('/comentarios', {
+    axios.post('http://localhost:5000/comentarios', {
       publicacion_id: publicacionId,
       nombre_usuario: user.nombres,
       comentario
@@ -47,7 +47,11 @@ const Inicio = () => {
     .then(response => {
       setPublicaciones(prev => prev.map(pub => {
         if (pub.id === publicacionId) {
-          return { ...pub, comentarios: [...pub.comentarios, comentario] };
+          return { ...pub, comentarios: [...pub.comentarios, {
+            nombre_usuario: user.nombres,
+            comentario,
+            fecha_creacion: new Date().toLocaleString()
+          }] };
         }
         return pub;
       }));
@@ -116,7 +120,10 @@ const Inicio = () => {
               <h3 className="text-lg font-semibold">Comentarios</h3>
               <ul className="list-disc pl-5">
                 {pub.comentarios.map((com, index) => (
-                  <li key={index} className="text-gray-700">{com}</li>
+                  <li key={index} className="text-gray-700">
+                    <p><strong>{com.nombre_usuario}</strong> ({new Date(com.fecha_creacion).toLocaleString()}):</p>
+                    <p>{com.comentario}</p>
+                  </li>
                 ))}
               </ul>
               <input

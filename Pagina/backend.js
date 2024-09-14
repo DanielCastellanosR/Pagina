@@ -88,12 +88,14 @@ app.get('/cursos', (req, res) => {
 });
 
 // Ruta para obtener todas las publicaciones con sus comentarios
+// Ruta para obtener todas las publicaciones con sus comentarios
 app.get('/publicaciones', (req, res) => {
     const sql = `
-        SELECT p.id, p.nombre_usuario, p.curso_o_catedratico, p.mensaje, p.fecha_creacion, c.comentario
+        SELECT p.id, p.nombre_usuario, p.curso_o_catedratico, p.mensaje, p.fecha_creacion, 
+               c.id AS comentario_id, c.nombre_usuario AS comentario_usuario, c.comentario, c.fecha_creacion AS comentario_fecha
         FROM publicaciones p
         LEFT JOIN comentarios c ON p.id = c.publicacion_id
-        ORDER BY p.fecha_creacion DESC
+        ORDER BY p.fecha_creacion DESC, c.fecha_creacion ASC
     `;
     connection.query(sql, (err, results) => {
         if (err) {
@@ -103,7 +105,14 @@ app.get('/publicaciones', (req, res) => {
         const publicaciones = results.reduce((acc, row) => {
             const pub = acc.find(p => p.id === row.id);
             if (pub) {
-                pub.comentarios.push(row.comentario);
+                if (row.comentario_id) {
+                    pub.comentarios.push({
+                        id: row.comentario_id,
+                        nombre_usuario: row.comentario_usuario,
+                        comentario: row.comentario,
+                        fecha_creacion: row.comentario_fecha
+                    });
+                }
             } else {
                 acc.push({
                     id: row.id,
@@ -111,7 +120,12 @@ app.get('/publicaciones', (req, res) => {
                     curso_o_catedratico: row.curso_o_catedratico,
                     mensaje: row.mensaje,
                     fecha_creacion: row.fecha_creacion,
-                    comentarios: row.comentario ? [row.comentario] : []
+                    comentarios: row.comentario_id ? [{
+                        id: row.comentario_id,
+                        nombre_usuario: row.comentario_usuario,
+                        comentario: row.comentario,
+                        fecha_creacion: row.comentario_fecha
+                    }] : []
                 });
             }
             return acc;
