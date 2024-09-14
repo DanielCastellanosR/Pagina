@@ -13,7 +13,7 @@ export const PublicacionProvider = ({ children }) => {
   };
 
   return (
-    <PublicacionContext.Provider value={{ publicaciones, agregarPublicacion }}>
+    <PublicacionContext.Provider value={{ publicaciones, setPublicaciones, agregarPublicacion }}>
       {children}
     </PublicacionContext.Provider>
   );
