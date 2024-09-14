@@ -45,6 +45,40 @@ const Register = () => {
         }
     };
 
+    const handleCarnetChange = (e) => {
+        const value = e.target.value;
+        if (/^\d*$/.test(value)) {
+            setRegistroAcademico(value);
+        }
+    };
+
+    const handleNombresChange = (e) => {
+        const value = e.target.value;
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+            setNombres(value);
+        }
+    };
+
+    const handleApellidosChange = (e) => {
+        const value = e.target.value;
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+            setApellidos(value);
+        }
+    };
+
+    const handleEmailChange = (e) => {
+        const value = e.target.value;
+        setEmail(value);
+    };
+
+    const validateEmail = () => {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setError('Correo electrónico no válido.');
+        } else {
+            setError('');
+        }
+    };
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white px-10 py-10 rounded-xl border-2 border-gray-100 shadow-lg w-full max-w-lg">
@@ -65,7 +99,7 @@ const Register = () => {
                                 name="code"
                                 required
                                 value={registroAcademico}
-                                onChange={(e) => setRegistroAcademico(e.target.value)}
+                                onChange={handleCarnetChange}
                                 className="mt-1 py-2 px-3 rounded-xl bg-slate-100 w-full border-2 border-gray-300"
                             />
                         </div>
@@ -78,7 +112,7 @@ const Register = () => {
                                     name="name"
                                     required
                                     value={nombres}
-                                    onChange={(e) => setNombres(e.target.value)}
+                                    onChange={handleNombresChange}
                                     className="mt-1 py-2 px-3 rounded-xl bg-slate-100 w-full border-2 border-gray-300"
                                 />
                             </div>
@@ -90,7 +124,7 @@ const Register = () => {
                                     name="apellido"
                                     required
                                     value={apellidos}
-                                    onChange={(e) => setApellidos(e.target.value)}
+                                    onChange={handleApellidosChange}
                                     className="mt-1 py-2 px-3 rounded-xl bg-slate-100 w-full border-2 border-gray-300"
                                 />
                             </div>
@@ -103,7 +137,8 @@ const Register = () => {
                                 name="email"
                                 required
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={handleEmailChange}
+                                onBlur={validateEmail}
                                 className="mt-1 py-2 px-3 rounded-xl bg-slate-100 w-full border-2 border-gray-300"
                             />
                         </div>
