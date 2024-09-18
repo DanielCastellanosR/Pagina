@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PublicacionContext } from './PublicacionContext';
 import axios from 'axios';
+import { PublicacionContext } from './PublicacionContext';
 
 const Inicio = () => {
   const { publicaciones, setPublicaciones } = useContext(PublicacionContext);
@@ -47,15 +47,13 @@ const Inicio = () => {
     .then(response => {
       setPublicaciones(prev => prev.map(pub => {
         if (pub.id === publicacionId) {
-          return { ...pub, comentarios: [...pub.comentarios, {
-            nombre_usuario: user.nombres,
-            comentario,
-            fecha_creacion: new Date().toLocaleString()
-          }] };
+          return {
+            ...pub,
+            comentarios: [...pub.comentarios, response.data]
+          };
         }
         return pub;
       }));
-      setComentarios(prev => ({ ...prev, [publicacionId]: '' }));
     })
     .catch(error => {
       console.error('Error adding comentario:', error);
@@ -79,10 +77,10 @@ const Inicio = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Inicio</h1>
         <button
-          className="bg-blue-500 text-white p-2 rounded"
-          navigate="/perfil/:userId"
+        className="bg-blue-500 text-white p-2 rounded"
+        onClick={() => navigate(`/perfil/${user.id}`)}
         >
-          Ir a perfil
+        Ir a perfil
         </button>
         <button
           className="bg-red-500 text-white p-2 rounded"

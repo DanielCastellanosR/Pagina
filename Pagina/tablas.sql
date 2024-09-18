@@ -32,8 +32,10 @@ CREATE TABLE comentarios (
 
 CREATE TABLE cursos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
+    nombre_usuario VARCHAR(100) NOT NULL,
+    nombre_curso VARCHAR(255) NOT NULL,
     codigo VARCHAR(50) NOT NULL,
-    creditos INT NOT NULL
+    creditos INT NOT NULL,
+    FOREIGN KEY (nombre_usuario) REFERENCES usuarios(nombres)
 );
 

@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 
 const Publicacion = () => {
   const [usuario, setUsuario] = useState(null);
-  const [tipo, setTipo] = useState(""); // Catedrático o Curso
-  const [seleccion, setSeleccion] = useState(""); // Nombre del Catedrático o Curso
+  const [tipo, setTipo] = useState(""); 
+  const [seleccion, setSeleccion] = useState(""); 
   const [mensaje, setMensaje] = useState("");
   const [fechaCreacion] = useState(new Date().toLocaleDateString());
   const [error, setError] = useState("");
   const [exito, setExito] = useState(false);
   const [cursos, setCursos] = useState([]);
-  const [catedraticos, setCatedraticos] = useState([]); // Estado para los catedráticos
+  const [catedraticos, setCatedraticos] = useState([]); 
 
   const navigate = useNavigate();
 
@@ -23,8 +23,7 @@ const Publicacion = () => {
       navigate('/');
     }
 
-    // Cargar los cursos desde el backend
-    axios.get('http://localhost:5000/cursos')
+        axios.get('http://localhost:5000/cursos')
       .then(response => {
         setCursos(response.data);
       })
@@ -32,8 +31,7 @@ const Publicacion = () => {
         console.error('Error al cargar los cursos:', error);
       });
 
-    // Cargar los catedráticos desde el archivo JSON
-    fetch('/profesores.json')
+        fetch('/profesores.json')
       .then(response => response.json())
       .then(data => {
         setCatedraticos(data);
@@ -60,13 +58,10 @@ const Publicacion = () => {
     }
     setError("");
 
-    // Convertir la fecha a un formato compatible con MySQL
-    const fechaCreacionFormatted = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const fechaCreacionFormatted = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    // Enviar la publicación al backend
-    axios.post('http://localhost:5000/publicaciones', {
-      nombre_usuario: usuario.nombres, // Asegurarse de que este valor coincide con la columna `nombres` en `usuarios`
-      curso_o_catedratico: seleccion,
+       axios.post('http://localhost:5000/publicaciones', {
+      nombre_usuario: usuario.nombres,      curso_o_catedratico: seleccion,
       mensaje,
       fecha_creacion: fechaCreacionFormatted
     })

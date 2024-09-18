@@ -6,8 +6,9 @@ import Registro from './Register';
 import Inicio from './inicio';
 import Publicacion from './publicacion';
 import Olvidar from './Olvidar_contrasena';
-import { Perfil, BuscarPerfil } from './Perfil';
-import { PublicacionProvider } from './PublicacionContext'; 
+import { PublicacionProvider } from './PublicacionContext';
+import Perfil from './Perfil';
+import AgregarCurso from './AgregarCurso';
 
 function App() {
   return (
@@ -18,8 +19,8 @@ function App() {
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/publicacion" element={<Publicacion />} />
         <Route path="/olvidar" element={<Olvidar />} />
-        <Route path="/buscar-perfil" element={<BuscarPerfil />} />
-        <Route path="/perfil/:userId" element={<Perfil />} />
+        <Route path="/perfil/:id" element={<Perfil />} />
+        <Route path="/agregar-cursos" element={<AgregarCurso />} /> 
       </Routes>
     </PublicacionProvider>
   );

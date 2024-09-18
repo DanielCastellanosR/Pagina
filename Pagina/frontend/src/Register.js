@@ -27,18 +27,18 @@ const Register = () => {
             setExito(true);
             setTimeout(() => {
                 navigate('/');
-            }, 3000); // Redirigir después de 3 segundos
+            }, 3000); 
         } catch (error) {
             if (error.response) {
-                // El servidor respondió con un código de estado fuera del rango 2xx
+                
                 console.error('Error response:', error.response.data);
                 setError(error.response.data.message);
             } else if (error.request) {
-                // La solicitud fue hecha pero no se recibió respuesta
+                
                 console.error('No response:', error.request);
                 setError('No se recibió respuesta del servidor.');
             } else {
-                // Algo sucedió al configurar la solicitud que desencadenó un error
+                
                 console.error('Error during registration:', error.message);
                 setError('Error durante el registro.');
             }
